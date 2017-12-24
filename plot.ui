@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Plot</class>
+ <widget class="QWidget" name="Plot">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>700</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Plot - MIMO Radar</string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
