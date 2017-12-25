@@ -23,9 +23,9 @@ MyUDP::MyUDP(QObject *parent) : QUdpSocket(parent)
 {
     socket = new QUdpSocket();
 
-    for (quint16 i = 0; i < 4096; i++)
+    for (quint16 i = 0; i < 1024; i++)
     {
-        timeStamp.append(i / 250.0);
+        timeStamp.append(i / 62.5);
     }
 }
 
@@ -65,12 +65,27 @@ void MyUDP::readyRead()
     socket->readDatagram(buffer.data(), buffer.size(),
                          &sender, &senderPort);
 
-    if (buffer.left(7) == "ADCDATA")
+    //qDebug()<<buffer.size();
+
+    for (quint16 i=0; i<buffer.size(); i+=2)
     {
-        acceptingADCData = true;
-        array.clear();
+        adcData.append(((((((quint16)(buffer.at(i)))<<8) + ((quint16)(buffer.at(i+1))))>>2) & 0x0FFF)/ pow(2,12)*1.48);
     }
 
+    for (quint16 i=0; i<((quint16)(adcData.size()/1024));i++)
+    {
+        //emit newMessage(sender.toString(), adcData.mid(0,1024));
+        // prepare data for plotting
+        for (quint16 i = 0; i < 1024; i++)
+        {
+            plotData.append(QPointF(timeStamp.at(i), adcData.at(i)));
+        }
+        emit newData(plotData);
+        plotData.clear();
+        adcData=adcData.mid(1024, adcData.size()-1024);
+    }
+
+    /*
     if (acceptingADCData)
     {
         array.append(buffer);
@@ -85,7 +100,7 @@ void MyUDP::readyRead()
         acceptingADCData = false;
         array = array.mid(7, array.size() - 14);
         qDebug() << array.size();
-        /*
+
         for (qint32 i = 0; i < 1024; i++)
         {
             // Pong
@@ -97,7 +112,7 @@ void MyUDP::readyRead()
             adcData.append(((float)((((((quint16)array.at(i + 1024 * 4)) << 8) + ((quint16)array.at(i + 1024 * 5))) >> 2) & 0x0FFF)) / pow(2, 12) * 1.48);
             //timeStampMCU.append(((((quint32)array.at(i+1024 * 28)) << 16) + (((quint32)array.at(i + 1024*29)) << 8) + ((quint32)array.at(i + 1024*30))) >> 6);
             adcData.append(((float)((((((quint16)array.at(i + 1024 * 6)) << 8) + ((quint16)array.at(i + 1024 * 7))) >> 2) & 0x0FFF)) / pow(2, 12) * 1.48);
-        }*/
+        }
         //emit newMessage(sender.toString(), adcData);
 
         // prepare data for plotting
@@ -123,7 +138,7 @@ void MyUDP::readyRead()
         adcData.clear();
         plotData.clear();
         //timeStampMCU.clear();
-    }
+    }*/
 }
 
 void MyUDP::unbindPort()
