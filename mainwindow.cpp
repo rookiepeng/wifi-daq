@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 void MainWindow::onConnectButtonClicked()
 {
     disconnect(ui->button_Connect, SIGNAL(clicked()), this, SLOT(onConnectButtonClicked()));
-    ui->statusBar->showMessage("Connecting to Radar ...", 0);
+    ui->statusBar->showMessage("Connecting to device ...", 0);
 
     if (setupConnection(UDPSERVER))
     {
@@ -117,7 +117,7 @@ void MainWindow::onTcpClientNewConnection(const QString &from, quint16 port)
     connect(ui->button_TcpClientSend, SIGNAL(clicked()), this, SLOT(onTcpClientSendMessage()));
     connect(ui->lineEdit_TcpClientSend, SIGNAL(returnPressed()), this, SLOT(onTcpClientSendMessage()));
 
-    ui->statusBar->showMessage("Connected to Radar: " + from + ": " + QString::number(port), 0);
+    ui->statusBar->showMessage("Connected to device: " + from + ": " + QString::number(port), 0);
 }
 
 /***********************************
@@ -365,6 +365,8 @@ void MainWindow::initUI()
     ui->tabWidget->setCurrentIndex(0);
 
     ui->label_AppVersion->setText(APPVERSION);
+
+    //ui->lineEdit_SaveTo->setDisabled(true);
 }
 
 /***********************************
@@ -443,8 +445,8 @@ void MainWindow::loadSettings()
 
     ui->lineEdit_UdpListenPort->setText(settings.value("UDP_LISTEN_PORT", 1234).toString());
 
-    ui->lineEdit_SaveTo->setText(settings.value("DATADIR", QDir::currentPath()).toString());
-    fileDir = ui->lineEdit_SaveTo->text();
+    ui->label_SaveDir->setText(settings.value("DATADIR", QDir::currentPath()).toString());
+    fileDir = ui->label_SaveDir->text();
 
     int index = settings.value("interfaceIndex", 0).toInt();
     if (ui->comboBox_Interface->count() >= index)
@@ -486,7 +488,7 @@ void MainWindow::saveSettings()
 
     settings.setValue("INTERFACE_INDEX", ui->comboBox_Interface->currentIndex());
 
-    settings.setValue("DATADIR", ui->lineEdit_SaveTo->text());
+    settings.setValue("DATADIR", ui->label_SaveDir->text());
 
     settings.sync();
 }
@@ -500,7 +502,7 @@ void MainWindow::onRefreshButtonClicked()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    QSettings settings("ZPeng", "MIMORadar");
+    QSettings settings("ZPeng", "WiFiDAQ");
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
     QMainWindow::closeEvent(event);
@@ -510,7 +512,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::restoreWindowState()
 {
-    QSettings settings("ZPeng", "MIMORadar");
+    QSettings settings("ZPeng", "WiFiDAQ");
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("windowState").toByteArray());
 }
@@ -537,7 +539,7 @@ void MainWindow::saveToDir()
     else
     {
         fileDir = dir;
-        ui->lineEdit_SaveTo->setText(fileDir);
+        ui->label_SaveDir->setText(fileDir);
     }
     //qDebug() << fileDir;
     //qDebug() << QDir::currentPath();

@@ -39,7 +39,7 @@ Plot::Plot(QWidget *parent) : QWidget(parent),
     chart = new QChart();
     chart->legend()->hide();
     chart->addSeries(series);
-    chart->setTitle("Beat Signal");
+    //chart->setTitle("Beat Signal");
     chart->createDefaultAxes();
     chart->axisY()->setRange(0, 1.5);
     chart->axisY()->setTitleText("Voltage (V)");
