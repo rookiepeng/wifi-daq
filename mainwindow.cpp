@@ -445,8 +445,8 @@ void MainWindow::loadSettings()
 
     ui->lineEdit_UdpListenPort->setText(settings.value("UDP_LISTEN_PORT", 1234).toString());
 
-    ui->label_SaveDir->setText(settings.value("DATADIR", QDir::currentPath()).toString());
-    fileDir = ui->label_SaveDir->text();
+    ui->lineEdit_SaveTo->setText(settings.value("DATADIR", QDir::currentPath()).toString());
+    fileDir = ui->lineEdit_SaveTo->text();
 
     int index = settings.value("interfaceIndex", 0).toInt();
     if (ui->comboBox_Interface->count() >= index)
@@ -488,7 +488,7 @@ void MainWindow::saveSettings()
 
     settings.setValue("INTERFACE_INDEX", ui->comboBox_Interface->currentIndex());
 
-    settings.setValue("DATADIR", ui->label_SaveDir->text());
+    settings.setValue("DATADIR", ui->lineEdit_SaveTo->text());
 
     settings.sync();
 }
@@ -539,7 +539,7 @@ void MainWindow::saveToDir()
     else
     {
         fileDir = dir;
-        ui->label_SaveDir->setText(fileDir);
+        ui->lineEdit_SaveTo->setText(fileDir);
     }
     //qDebug() << fileDir;
     //qDebug() << QDir::currentPath();
