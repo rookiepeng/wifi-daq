@@ -14,7 +14,7 @@ The source code of CC3200 can be found in
 /CC3200
 ```
 
-### Building
+### Build
 
 Build the source code with TI Code Composer Studio (CCS).
 
@@ -34,7 +34,7 @@ The source code of the PC client can be found in
 /PC Client
 ```
 
-### Building
+### Build
 
 The source code can be compiled with [Qt5](https://www.qt.io/) in Windows, Linux and MacOS. Qt Creator can be used.
 
