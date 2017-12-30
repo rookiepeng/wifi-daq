@@ -52,7 +52,9 @@ Here are the steps to setup the system:
 6. Send **ADC START** to start data sampling.
 7. Send **ADC STOP** to stop data sampling. 
 
-## *TODO* (Help is welcome)
+## *Todo list*
+
+Help is always welcome. Please contact me if you want to make a contribution to this project.
 
 *Firmware*
 
