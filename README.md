@@ -8,7 +8,9 @@ The hardware is TI Simplelink CC3200, which is an ARM micro-controller with a Wi
 
 Either CC3200 LaunchPad or the customized WiFi DAQ board can be used.
 
-The source code of CC3200 can be found in
+## Firmware
+
+The firmware source code of CC3200 can be found in
 
 ```
 /CC3200
@@ -25,7 +27,7 @@ Dependency:
 
 The built binary file must be downloaded into CC3200 by using [Uniflash v3.4.1](http://www.ti.com/tool/UNIFLASH).
 
-## Software
+## Client
 
 Currently, there is only a PC client avaiable, which is built by Qt5.
 The source code of the PC client can be found in
@@ -49,3 +51,7 @@ Here are the steps to setup the system:
 5. Click **Connect** button to connect with the board.
 6. Send **ADC START** to start data sampling.
 7. Send **ADC STOP** to stop data sampling. 
+
+## <span style="color:red">Known issues</span>
+
+
