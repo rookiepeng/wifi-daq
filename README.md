@@ -52,6 +52,20 @@ Here are the steps to setup the system:
 6. Send **ADC START** to start data sampling.
 7. Send **ADC STOP** to stop data sampling. 
 
-## <span style="color:red">Known issues</span>
+## *TODO* (Help is welcome)
 
+*Firmware*
+
+1. Implement watchdog to reset CC3200 automatically when the firmware stops working.
+2. Selectable among different ADC channels.
+3. Improve connection reliablity.
+
+*Client*
+
+1. Replace command-line confguration with buttons.
+
+## *Known issues*
+
+1. ADC will stop working after start and stop 4 times. (The problem may in the firmware)
+2. Occasionally, ADC will stop working after running for a while.
 
