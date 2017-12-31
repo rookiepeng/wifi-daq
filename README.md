@@ -64,7 +64,8 @@ Help is always welcome. Please contact me if you want to make a contribution to 
 
 *Client*
 
-1. Replace command-line confguration with buttons.
+1. Add data saving option.
+2. Replace command-line configuration with buttons.
 
 ## *Known issues*
 
