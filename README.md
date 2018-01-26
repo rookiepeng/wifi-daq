@@ -66,6 +66,7 @@ Help is always welcome. Please contact me if you want to make a contribution to 
 
 1. Add data saving option.
 2. Replace command-line configuration with buttons.
+3. Client for Android and iOS.
 
 ## *Known issues*
 
