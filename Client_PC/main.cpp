@@ -22,7 +22,7 @@
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // hi-dpi support
 
     QApplication a(argc, argv);
     MainWindow w;

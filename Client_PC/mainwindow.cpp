@@ -23,15 +23,13 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
                                           ui(new Ui::MainWindow)
 {
-    restoreWindowState();
+    restoreWindowState(); // windows state
     ui->setupUi(this);
-    initUI();
-    findLocalIPs();
-    loadSettings();
+    initUI();       // initialize UI
+    findLocalIPs(); // get IP addresses from local internet interfaces
+    loadSettings(); // load saved configurations
 
-    /******
-     * UDP
-     ******/
+    // initialize UDP socket
     if (myudp == nullptr)
     {
         myudp = new MyUDP;
@@ -40,21 +38,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     // buttons
     connect(ui->button_Connect, SIGNAL(clicked()), this, SLOT(onConnectButtonClicked()));
     connect(ui->button_Refresh, SIGNAL(clicked()), this, SLOT(onRefreshButtonClicked()));
-
     connect(ui->button_Plot, SIGNAL(clicked(bool)), this, SLOT(openPlot()));
+    connect(ui->toolButton_SaveTo, SIGNAL(clicked(bool)), this, SLOT(saveToDir()));
 
-    //connect(myudp, SIGNAL(newData(QVector<float>,QVector<float>)), &plot, SLOT(updatePlot(QVector<float>, QVector<float>)));
+    // data
     connect(myudp, SIGNAL(newData(QVector<QPointF>)), &plot, SLOT(updatePlot(QVector<QPointF>)));
     connect(myudp, SIGNAL(newData(QVector<QPointF>)), this, SLOT(openPlot()));
-
-    connect(ui->toolButton_SaveTo, SIGNAL(clicked(bool)), this, SLOT(saveToDir()));
 }
 
-/***********************************
- *
+/*
  * Connect button clicked
- *
- ***********************************/
+ */
 void MainWindow::onConnectButtonClicked()
 {
     disconnect(ui->button_Connect, SIGNAL(clicked()), this, SLOT(onConnectButtonClicked()));
@@ -92,11 +86,9 @@ void MainWindow::onConnectButtonClicked()
     saveSettings();
 }
 
-/***********************************
- *
+/*
  * TCP client has a new connection
- *
- ***********************************/
+ */
 void MainWindow::onTcpClientNewConnection(const QString &from, quint16 port)
 {
     disconnect(mytcpclient, SIGNAL(myClientConnected(QString, quint16)), this, SLOT(onTcpClientNewConnection(QString, quint16)));
@@ -120,11 +112,9 @@ void MainWindow::onTcpClientNewConnection(const QString &from, quint16 port)
     ui->statusBar->showMessage("Connected to device: " + from + ": " + QString::number(port), 0);
 }
 
-/***********************************
- *
+/*
  * Stop button clicked
- *
- ***********************************/
+ */
 void MainWindow::onStopButtonClicked()
 {
     disconnect(ui->button_Connect, SIGNAL(clicked()), this, SLOT(onStopButtonClicked()));
@@ -149,11 +139,9 @@ void MainWindow::onStopButtonClicked()
     connect(ui->button_Connect, SIGNAL(clicked()), this, SLOT(onConnectButtonClicked()));
 }
 
-/***********************************
- *
+/*
  * TCP client connection time out
- *
- ***********************************/
+ */
 void MainWindow::onTcpClientTimeOut()
 {
     disconnect(ui->button_Connect, SIGNAL(clicked()), this, SLOT(onStopButtonClicked()));
@@ -179,21 +167,17 @@ void MainWindow::onTcpClientTimeOut()
     msgBox.exec();
 }
 
-/***********************************
- *
+/*
  * Diconnect button clicked
- *
- ***********************************/
+ */
 void MainWindow::onDisconnectButtonClicked()
 {
     mytcpclient->disconnectCurrentConnection();
 }
 
-/***********************************
- *
+/*
  * Disconnected
- *
- ***********************************/
+ */
 void MainWindow::onDisconnected()
 {
     ui->statusBar->showMessage("Disconnected", 0);
@@ -224,11 +208,9 @@ void MainWindow::onDisconnected()
     connect(ui->button_Connect, SIGNAL(clicked()), this, SLOT(onConnectButtonClicked()));
 }
 
-/***********************************
- *
+/*
  * Append a message to message browser
- *
- ***********************************/
+ */
 void MainWindow::onAppendMessage(const QString &from, const QString &message)
 {
     //if (from.isEmpty() || message.isEmpty())
@@ -265,9 +247,10 @@ void MainWindow::onAppendMessage(const QString &from, const QString &message)
 void MainWindow::onAppendMessage(const QString &from, const QVector<float> &data)
 {
     //if (from.isEmpty() || message.isEmpty())
-    //{
-    //    return;
-    //}
+    if (message.isEmpty())
+    {
+        return;
+    }
 
     QTextCursor cursor(ui->textBrowser_TcpClientMessage->textCursor());
     cursor.movePosition(QTextCursor::End);
@@ -300,11 +283,9 @@ void MainWindow::onAppendMessage(const QString &from, const QVector<float> &data
     }
 }
 
-/***********************************
- *
+/*
  * Send message through TCP client
- *
- ***********************************/
+ */
 void MainWindow::onTcpClientSendMessage()
 {
     QString text = ui->lineEdit_TcpClientSend->text();
@@ -331,11 +312,9 @@ void MainWindow::onTcpClientSendMessage()
     }
 }
 
-/***********************************
- *
+/*
  * UI initialization
- *
- ***********************************/
+ */
 void MainWindow::initUI()
 {
     QString rule = "(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])";
@@ -369,11 +348,9 @@ void MainWindow::initUI()
     //ui->lineEdit_SaveTo->setDisabled(true);
 }
 
-/***********************************
- *
+/*
  * Setup connections
- *
- ***********************************/
+ */
 bool MainWindow::setupConnection(quint8 type)
 {
     bool isSuccess = false;
@@ -399,11 +376,9 @@ bool MainWindow::setupConnection(quint8 type)
     return isSuccess;
 }
 
-/***********************************
- *
+/*
  * Find IP of local WiFi connections
- *
- ***********************************/
+ */
 void MainWindow::findLocalIPs()
 {
     ui->comboBox_Interface->clear();
@@ -431,11 +406,9 @@ void MainWindow::findLocalIPs()
     }
 }
 
-/***********************************
- *
+/*
  * Load settings from local configuration file
- *
- ***********************************/
+ */
 void MainWindow::loadSettings()
 {
     settingsFileDir = QApplication::applicationDirPath() + "/config.ini";
@@ -473,11 +446,9 @@ void MainWindow::loadSettings()
     }
 }
 
-/***********************************
- *
+/*
  * Save settings to local configuration file
- *
- ***********************************/
+ */
 void MainWindow::saveSettings()
 {
     QSettings settings(settingsFileDir, QSettings::IniFormat);
