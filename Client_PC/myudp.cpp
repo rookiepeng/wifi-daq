@@ -1,6 +1,21 @@
-/****************************************************************************************
-//    Copyright (C) 2017  Zhengyu Peng, zhengyu.peng@ttu.edu
-*****************************************************************************************/
+/*
+ *   myudp.cpp: UDP socket
+ * 
+ *   Copyright (C) 2017  Zhengyu Peng, https://zpeng.me
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "myudp.h"
 
@@ -52,12 +67,12 @@ void MyUDP::readyRead()
 
     //qDebug()<<buffer.size();
 
-    for (quint16 i=0; i<buffer.size(); i+=2)
+    for (quint16 i = 0; i < buffer.size(); i += 2)
     {
-        adcData.append(((((((quint16)(buffer.at(i)))<<8) + ((quint16)(buffer.at(i+1))))>>2) & 0x0FFF)/ pow(2,12)*1.48);
+        adcData.append(((((((quint16)(buffer.at(i))) << 8) + ((quint16)(buffer.at(i + 1)))) >> 2) & 0x0FFF) / pow(2, 12) * 1.48);
     }
 
-    for (quint16 i=0; i<((quint16)(adcData.size()/1024));i++)
+    for (quint16 i = 0; i < ((quint16)(adcData.size() / 1024)); i++)
     {
         //emit newMessage(sender.toString(), adcData.mid(0,1024));
         // prepare data for plotting
@@ -67,7 +82,7 @@ void MyUDP::readyRead()
         }
         emit newData(plotData);
         plotData.clear();
-        adcData=adcData.mid(1024, adcData.size()-1024);
+        adcData = adcData.mid(1024, adcData.size() - 1024);
     }
 
     /*
