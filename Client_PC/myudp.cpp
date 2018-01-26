@@ -84,61 +84,6 @@ void MyUDP::readyRead()
         plotData.clear();
         adcData = adcData.mid(1024, adcData.size() - 1024);
     }
-
-    /*
-    if (acceptingADCData)
-    {
-        array.append(buffer);
-    }
-    else
-    {
-        emit newMessage(sender.toString(), buffer);
-    }
-
-    if (array.right(7) == "ADCSTOP")
-    {
-        acceptingADCData = false;
-        array = array.mid(7, array.size() - 14);
-        qDebug() << array.size();
-
-        for (qint32 i = 0; i < 1024; i++)
-        {
-            // Pong
-            //timeStampMCU.append(((((quint32)array.at(i+1024 * 16)) << 16) + (((quint32)array.at(i + 1024*17)) << 8) + ((quint32)array.at(i + 1024*18))) >> 6);
-            adcData.append(((float)((((((quint16)array.at(i + 1024 * 0)) << 8) + ((quint16)array.at(i + 1024 * 1))) >> 2) & 0x0FFF)) / pow(2, 12) * 1.48);
-            //timeStampMCU.append(((((quint32)array.at(i+1024 * 20)) << 16) + (((quint32)array.at(i + 1024*21)) << 8) + ((quint32)array.at(i + 1024*22))) >> 6);
-            adcData.append(((float)((((((quint16)array.at(i + 1024 * 2)) << 8) + ((quint16)array.at(i + 1024 * 3))) >> 2) & 0x0FFF)) / pow(2, 12) * 1.48);
-            //timeStampMCU.append(((((quint32)array.at(i+1024 * 24)) << 16) + (((quint32)array.at(i + 1024*25)) << 8) + ((quint32)array.at(i + 1024*26))) >> 6);
-            adcData.append(((float)((((((quint16)array.at(i + 1024 * 4)) << 8) + ((quint16)array.at(i + 1024 * 5))) >> 2) & 0x0FFF)) / pow(2, 12) * 1.48);
-            //timeStampMCU.append(((((quint32)array.at(i+1024 * 28)) << 16) + (((quint32)array.at(i + 1024*29)) << 8) + ((quint32)array.at(i + 1024*30))) >> 6);
-            adcData.append(((float)((((((quint16)array.at(i + 1024 * 6)) << 8) + ((quint16)array.at(i + 1024 * 7))) >> 2) & 0x0FFF)) / pow(2, 12) * 1.48);
-        }
-        //emit newMessage(sender.toString(), adcData);
-
-        // prepare data for plotting
-        //for (quint16 i = 0; i < 4096; i++)
-        //{
-        //    plotData.append(QPointF(timeStamp.at(i), adcData.at(i)));
-        //}
-        //emit newData(plotData);
-
-        //qDebug() << adcData.size();
-        //qDebug() << adcData.mid(0, 1024);
-        //qDebug() << timeStamp.mid(0, 1024);
-        //qDebug() << adcData.mid(1024,1024);
-        //qDebug() << adcData.mid(1024*2,1024);
-        //qDebug() << adcData.mid(1024*3,1024);
-        //qDebug() << adcData.mid(1024*4,1024);
-        //qDebug() << adcData.mid(1024*5,1024);
-        //qDebug() << adcData.mid(1024*6,1024);
-        //qDebug() << adcData.mid(1024 * 7, 1024);
-        //qDebug() << timeStampMCU;
-
-        array.clear();
-        adcData.clear();
-        plotData.clear();
-        //timeStampMCU.clear();
-    }*/
 }
 
 void MyUDP::unbindPort()

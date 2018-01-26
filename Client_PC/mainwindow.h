@@ -51,18 +51,14 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 private slots:
-  /******************************************************************************
-     *
-     * Network Interface
-     *
-     ******************************************************************************/
+  /*
+   * Network Interface
+   */
   void onRefreshButtonClicked();
 
-  /******************************************************************************
-     *
-     * TCP Client and UDP Server
-     *
-     ******************************************************************************/
+  /*
+   * TCP Client and UDP Server
+   */
   void onConnectButtonClicked();
   void onTcpClientNewConnection(const QString &from, quint16 port);
   void onStopButtonClicked();
@@ -74,11 +70,9 @@ private slots:
   void onAppendMessage(const QString &from, const QString &message);
   void onAppendMessage(const QString &from, const QVector<float> &data);
 
-  /******************************************************************************
-     *
-     * Waveform
-     *
-     ******************************************************************************/
+  /*
+   * Waveform
+   */
   void openPlot();
 
   void saveToDir();

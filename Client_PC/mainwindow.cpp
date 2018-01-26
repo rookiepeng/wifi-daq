@@ -302,7 +302,6 @@ void MainWindow::onTcpClientSendMessage()
     if ((QString::compare("TX", text.left(2), Qt::CaseInsensitive)) == 0)
     {
         bool ok;
-        //qDebug()<<text.mid(2, text.length()-2).toUInt(&ok,16);
         txChannel = QString::number(text.mid(2, text.length() - 2).toUInt(&ok, 16), 16);
     }
     else if ((QString::compare("RX", text.left(2), Qt::CaseInsensitive)) == 0)
@@ -344,8 +343,6 @@ void MainWindow::initUI()
     ui->tabWidget->setCurrentIndex(0);
 
     ui->label_AppVersion->setText(APPVERSION);
-
-    //ui->lineEdit_SaveTo->setDisabled(true);
 }
 
 /*
@@ -512,6 +509,4 @@ void MainWindow::saveToDir()
         fileDir = dir;
         ui->lineEdit_SaveTo->setText(fileDir);
     }
-    //qDebug() << fileDir;
-    //qDebug() << QDir::currentPath();
 }
